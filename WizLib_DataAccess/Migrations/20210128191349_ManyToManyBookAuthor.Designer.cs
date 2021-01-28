@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WizLib_DataAccess.Data;
 
 namespace WizLib_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210128191349_ManyToManyBookAuthor")]
+    partial class ManyToManyBookAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,17 @@ namespace WizLib_DataAccess.Migrations
                     b.Property<int>("Book_Id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BookAuthorAuthor_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BookAuthorBook_Id")
+                        .HasColumnType("int");
+
                     b.HasKey("Author_Id", "Book_Id");
 
                     b.HasIndex("Book_Id");
+
+                    b.HasIndex("BookAuthorAuthor_Id", "BookAuthorBook_Id");
 
                     b.ToTable("BookAuthors");
                 });
@@ -174,7 +184,7 @@ namespace WizLib_DataAccess.Migrations
             modelBuilder.Entity("WizLib_Models.Models.BookAuthor", b =>
                 {
                     b.HasOne("WizLib_Models.Models.Author", "Author")
-                        .WithMany("BookAuthors")
+                        .WithMany()
                         .HasForeignKey("Author_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -185,17 +195,21 @@ namespace WizLib_DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WizLib_Models.Models.BookAuthor", null)
+                        .WithMany("BookAuthors")
+                        .HasForeignKey("BookAuthorAuthor_Id", "BookAuthorBook_Id");
+
                     b.Navigation("Author");
 
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("WizLib_Models.Models.Author", b =>
+            modelBuilder.Entity("WizLib_Models.Models.Book", b =>
                 {
                     b.Navigation("BookAuthors");
                 });
 
-            modelBuilder.Entity("WizLib_Models.Models.Book", b =>
+            modelBuilder.Entity("WizLib_Models.Models.BookAuthor", b =>
                 {
                     b.Navigation("BookAuthors");
                 });

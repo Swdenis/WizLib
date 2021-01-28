@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,16 @@ namespace WizLib_Models.Models
         [Required]
         public double Price { get; set; }
 
+        [ForeignKey("BookDetail")]
+        public int BookDetail_Id { get; set; }
+
+        public BookDetail BookDetail { get; set; }
+
+        [ForeignKey("Publisher")]
+        public int Publisher_Id { get; set; }
+
+        public Publisher Publisher { get; set; }
+
+        public ICollection<BookAuthor> BookAuthors { get; set; }
     }
 }
