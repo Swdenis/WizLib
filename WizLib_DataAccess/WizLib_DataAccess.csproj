@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Data\FluentConfig\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WizLib_Models\WizLib_Models.csproj" />
